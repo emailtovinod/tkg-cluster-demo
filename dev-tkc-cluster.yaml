@@ -1,0 +1,24 @@
+apiVersion: run.tanzu.vmware.com/v1alpha1
+kind: TanzuKubernetesCluster
+metadata:
+  name: tkg-dev-cluster
+spec:
+  topology:
+    controlPlane:
+      count: 1
+      class: best-effort-medium  # vmclass to be used for master(s)
+      storageClass: tanzu-k8s-lab-pol
+    workers:
+      count: 1
+      class: best-effort-medium # vmclass to be used for workers(s)
+      storageClass: tanzu-k8s-lab-pol
+  distribution:
+    version: 1.18.5
+  settings:
+    network:
+       cni:
+          name: antrea
+       services:
+          cidrBlocks: ["172.30.5.0/24"]        #Cannot overlap with Supervisor Cluster
+       pods:
+          cidrBlocks: ["172.30.0.0/22"]
